@@ -22,6 +22,21 @@
   </div>
 
   <div>
+    <%= form.label :app_type, style: "display: block" %>
+    <%= form.select :app_type, app_types %>
+  </div>
+
+  <div>
+    <%= form.label :access_user, style: "display: block" %>
+    <%= form.text_field :access_user %>
+  </div>
+
+  <div>
+    <%= form.label :access_token, style: "display: block" %>
+    <%= form.text_field :access_token %>
+  </div>
+
+  <div>
     <%= form.submit %>
   </div>
 <% end %>

@@ -1,0 +1,9 @@
+<h1>New project</h1>
+
+<%= render "form", project: @project, url: organization_projects_path(@organization) %>
+
+<br>
+
+<div>
+  <%= link_to "Back to projects", organization_projects_path %>
+</div>

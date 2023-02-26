@@ -4,7 +4,7 @@ class OrganizationsController < ApplicationController
 
   # GET /organizations or /organizations.json
   def index
-    @organizations = Organization.all
+    @organizations = current_user.organizations.all
   end
 
   # GET /organizations/1 or /organizations/1.json
@@ -22,10 +22,10 @@ class OrganizationsController < ApplicationController
 
   # POST /organizations or /organizations.json
   def create
-    @organization = Organization.new(organization_params)
+    @organization = OrganizationService.create_organization(organization_params, current_user)
 
     respond_to do |format|
-      if @organization.save
+      if current_user.save
         format.html { redirect_to organization_url(@organization), notice: "Organization was successfully created." }
         format.json { render :show, status: :created, location: @organization }
       else
@@ -61,11 +61,16 @@ class OrganizationsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_organization
-      @organization = Organization.find(params[:id])
+      @organization = OrganizationService.find(params[:id], current_user)
     end
 
     # Only allow a list of trusted parameters through.
     def organization_params
-      params.require(:organization).permit(:name, :url)
+      params.require(:organization).permit(:name, :url, :app_type, :access_token, :access_user)
     end
+
+    def app_types
+      OrganizationService.app_type
+    end
+    helper_method :app_types
 end
