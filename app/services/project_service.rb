@@ -28,4 +28,8 @@ module ProjectService
     }
   end
 
+  def self.find(id, organization)
+    organization.projects.find(id)
+  end
+
 end

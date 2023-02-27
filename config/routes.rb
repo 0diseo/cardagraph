@@ -3,7 +3,10 @@ Rails.application.routes.draw do
 
   devise_for :users
   resources :organizations do
-    resources :projects
+    resources :projects do
+      resources :tasks
+      post 'create_tasks', on: :member
+    end
     post 'create_projects', on: :member
   end
 
