@@ -7,5 +7,7 @@
   <%= link_to "Back to projects", organization_projects_path %> |
   <%= link_to "show tasks", organization_project_tasks_path(@organization, @project) %>
 
+  <%= button_to "create tasks", create_tasks_organization_project_path, method: :post %>
+
   <%= button_to "Destroy this project", organization_project_path, method: :delete %>
 </div>

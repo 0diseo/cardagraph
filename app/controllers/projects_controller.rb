@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: %i[ show edit update destroy ]
+  before_action :set_project, only: %i[ show edit update destroy create_tasks]
   before_action :set_organization
 
   # GET /projects or /projects.json
@@ -55,6 +55,20 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to organization_projects_path, notice: "Project was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def create_tasks
+    @task = TaskService.create_from_project(@organization.url, @project, @organization.access_user, @organization.access_token)
+
+    respond_to do |format|
+      if @project.save
+        format.html { redirect_to organization_project_tasks_path(@organization, @project), notice: "tasks were successfully created." }
+        format.json { render :show, status: :created, location: @project }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @project.errors, status: :unprocessable_entity }
+      end
     end
   end
 
