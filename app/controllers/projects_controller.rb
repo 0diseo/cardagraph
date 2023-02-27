@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[ show edit update destroy ]
-  before_action :set_organization, only: %i[create index edit show update new]
+  before_action :set_organization
 
   # GET /projects or /projects.json
   def index

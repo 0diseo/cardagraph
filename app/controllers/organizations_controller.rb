@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  before_action :set_organization, only: %i[ show edit update destroy ]
+  before_action :set_organization, only: %i[ show edit update destroy create_projects]
   before_action :authenticate_user!, only: %i[index]
 
   # GET /organizations or /organizations.json
@@ -55,6 +55,21 @@ class OrganizationsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to organizations_url, notice: "Organization was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+
+  def create_projects
+    @projects = ProjectService.create_from_organization(@organization)
+
+    respond_to do |format|
+      if @organization.save
+        format.html { redirect_to organization_projects_path(@organization), notice: "Project was successfully created." }
+        format.json { render :show, status: :created, location: @project }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @project.errors, status: :unprocessable_entity }
+      end
     end
   end
 
