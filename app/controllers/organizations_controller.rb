@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  before_action :set_organization, only: %i[ show edit update destroy create_projects]
+  before_action :set_organization, only: %i[ show edit update destroy create_projects create_projects_background]
   before_action :authenticate_user!, only: %i[index]
 
   # GET /organizations or /organizations.json
@@ -71,6 +71,11 @@ class OrganizationsController < ApplicationController
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def create_projects_background
+    CreateProjectsJob.perform_later(@organization)
+    redirect_to organization_projects_path(@organization), notice: "Projects were set to backgroundjob"
   end
 
   private

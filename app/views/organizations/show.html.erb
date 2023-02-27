@@ -8,6 +8,7 @@
   <%= link_to "projects", organization_projects_path(@organization) %>
 
   <%= button_to "create projects", create_projects_organization_path(@organization), method: :post %>
+  <%= button_to "create projects background", create_projects_background_organization_path(@organization), method: :post %>
 
   <%= button_to "Destroy this organization", @organization, method: :delete %>
 </div>
